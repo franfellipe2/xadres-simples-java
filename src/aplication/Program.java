@@ -11,8 +11,9 @@ public class Program {
 		
 		ChessMatch chessMatch  = new ChessMatch();
 		ChessPiece[][] pieces = chessMatch.getPieces();
-		
 		UI ui = new UI();
 		ui.printBoard(pieces);
+		
+		
 	}
 }
