@@ -37,8 +37,7 @@ public class ChessMatch {
 	public ChessPiece performChessMove(ChessPosition srcPosition, ChessPosition targPosition){
 		
 		Position src = srcPosition.toPosition();
-		Position targ = targPosition.toPosition();
-		
+		Position targ = targPosition.toPosition();		
 		validateSourcePosition(src);
 		Piece capturedPiece = makeMove(src, targ);
 		return (ChessPiece) capturedPiece;
@@ -51,10 +50,16 @@ public class ChessMatch {
 		return capturedPiece;
 	}
 
+	/**
+	 * Verifica se tem peça na posição e se ela tem movimentos válidos
+	 * @param p
+	 */
 	private void validateSourcePosition(Position p) {
 		// TODO Auto-generated method stub
 		if(!board.thereIsAPiece(p)) 
 			throw new ChessException("Não existe peça na posição de origem!");
+		if(!board.piece(p).isThereAnyPossibleMove()) 
+			throw new ChessException("Não existe movimento possivel para esta peca!");
 	}
 
 	private void intialSetup() {
