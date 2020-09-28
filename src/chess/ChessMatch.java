@@ -39,8 +39,16 @@ public class ChessMatch {
 		Position src = srcPosition.toPosition();
 		Position targ = targPosition.toPosition();		
 		validateSourcePosition(src);
+		validateTargetPosition(src, targ);
 		Piece capturedPiece = makeMove(src, targ);
 		return (ChessPiece) capturedPiece;
+	}
+
+	private void validateTargetPosition(Position src, Position targ) {
+		// TODO Auto-generated method stub
+		if(!board.piece(src).possibleMove(targ)){
+			throw new ChessException("Esta peca nao pode ser movida para a posicao de destino!");
+		}
 	}
 
 	private Piece makeMove(Position src, Position targ) {	
@@ -71,7 +79,7 @@ public class ChessMatch {
 		placeNewPiece('f', 1, new King(board, Color.WHITE));
 		placeNewPiece('g', 1, new Horse(board, Color.WHITE));
 		placeNewPiece('h', 1, new Rook(board, Color.WHITE));
-		placeNewPiece('a', 2, new Pawn(board, Color.WHITE));
+		//placeNewPiece('a', 2, new Pawn(board, Color.WHITE));
 		placeNewPiece('b', 2, new Pawn(board, Color.WHITE));
 		placeNewPiece('c', 2, new Pawn(board, Color.WHITE));		
 		placeNewPiece('d', 2, new Pawn(board, Color.WHITE));

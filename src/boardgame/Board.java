@@ -44,11 +44,7 @@ public class Board {
 		return row >= 0 && row < rows && column >= 0 && column < columns;
 	}
 
-	public boolean positionExistis(Position position) {
-		if (!positionExistis(position.getRow(), position.getColumn())) {
-			throw new BoardException(
-					"Não existe esta posição no tabuleiro ");
-		}
+	public boolean positionExistis(Position position) {		
 		return positionExistis(position.getRow(), position.getColumn());
 	}
 
