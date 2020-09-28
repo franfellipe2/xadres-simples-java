@@ -1,5 +1,7 @@
 package ui;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -47,7 +49,11 @@ public class UI {
 	}
 
 	public void printMatch() {
+		if(chessMatch.getCapturedBlacks().size() > 0)
+			System.out.println("  "+Arrays.toString(chessMatch.getCapturedBlacks().toArray()));
 		printBoard();
+		if(chessMatch.getCapturedWhites().size() > 0)
+			System.out.println("  "+ANSI_YELLOW+Arrays.toString(chessMatch.getCapturedWhites().toArray())+ANSI_RESET);
 		System.out.println();
 		System.out.println("Turno: " + chessMatch.getTurn());
 		System.out.println("Aguardando jogador: " + chessMatch.getCurrentPlayer());

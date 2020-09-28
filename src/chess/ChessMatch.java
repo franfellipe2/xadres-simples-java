@@ -1,5 +1,8 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import boardgame.Board;
 import boardgame.Piece;
 import boardgame.Position;
@@ -15,6 +18,9 @@ public class ChessMatch {
 	private int turn;
 	private Color currentPlayer;
 	private Board board;
+	private List<Piece> piecesOnTheBorad = new ArrayList<>();
+	private List<Piece> capturedWhites = new ArrayList<>();
+	private List<Piece> capturedBlacks = new ArrayList<>();
 
 	public ChessMatch() {
 		board = new Board(8, 8);
@@ -39,10 +45,18 @@ public class ChessMatch {
 
 	public Color getCurrentPlayer() {
 		return this.currentPlayer;
-	}	
+	}
 
+	/**
+	 * Passa a peça para o tabuleiro
+	 * 
+	 * @param column
+	 * @param row
+	 * @param piece
+	 */
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
+		piecesOnTheBorad.add(piece);
 	}
 
 	public ChessPiece performChessMove(ChessPosition srcPosition, ChessPosition targPosition) {
@@ -65,6 +79,13 @@ public class ChessMatch {
 		Piece piece = board.removePiece(src);
 		Piece capturedPiece = board.removePiece(targ);
 		board.placePiece(piece, targ);
+		if (capturedPiece != null) {
+			if (((ChessPiece) capturedPiece).getColor() == Color.WHITE) {
+				capturedWhites.add(capturedPiece);
+			} else {
+				capturedBlacks.add(capturedPiece);
+			}
+		}
 		return capturedPiece;
 	}
 
@@ -80,19 +101,35 @@ public class ChessMatch {
 	 * 
 	 * @param p
 	 */
-	private void validateSourcePosition(Position p) {		
+	private void validateSourcePosition(Position p) {
 		if (!board.thereIsAPiece(p))
 			throw new ChessException("Não existe peça na posição de origem!");
-		if(currentPlayer != ((ChessPiece)board.piece(p)).getColor())
+		if (currentPlayer != ((ChessPiece) board.piece(p)).getColor())
 			throw new ChessException("A peca escolhida nao e sua!");
 		if (!board.piece(p).isThereAnyPossibleMove())
 			throw new ChessException("Não existe movimento possivel para esta peca!");
-		
+
 	}
-	
+
 	public void nextTurn() {
 		this.turn++;
 		this.currentPlayer = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
+	}
+
+	public Board getBoard() {
+		return board;
+	}
+
+	public List<Piece> getPiecesOnTheBorad() {
+		return piecesOnTheBorad;
+	}
+
+	public List<Piece> getCapturedWhites() {
+		return capturedWhites;
+	}
+
+	public List<Piece> getCapturedBlacks() {
+		return capturedBlacks;
 	}
 
 	private void intialSetup() {
@@ -121,13 +158,13 @@ public class ChessMatch {
 		placeNewPiece('f', 8, new King(board, Color.BLACK));
 		placeNewPiece('g', 8, new Horse(board, Color.BLACK));
 		placeNewPiece('h', 8, new Rook(board, Color.BLACK));
-		//placeNewPiece('a', 7, new Pawn(board, Color.BLACK));
+		// placeNewPiece('a', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('b', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('c', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('d', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('e', 7, new Pawn(board, Color.BLACK));
-		//placeNewPiece('f', 7, new Pawn(board, Color.BLACK));
+		// placeNewPiece('f', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('g', 7, new Pawn(board, Color.BLACK));
-		placeNewPiece('h', 7, new Pawn(board, Color.BLACK));
+		//placeNewPiece('h', 7, new Pawn(board, Color.BLACK));
 	}
 }
