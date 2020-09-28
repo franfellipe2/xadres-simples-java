@@ -51,12 +51,12 @@ public class UI {
 	public void printMatch() {
 		printBoard();
 		if (chessMatch.isCheckmate()) {
-			String win = chessMatch.getCurrentPlayer() == Color.WHITE
+			String winner = chessMatch.getCurrentPlayer() == Color.WHITE
 					? ANSI_YELLOW_BACKGROUND + ANSI_BLACK + " " + Color.BLACK + " "+ANSI_RESET
 					: ANSI_WHITE_BACKGROUND + ANSI_BLACK + " " + Color.WHITE+" "+ANSI_RESET;			
 			System.out.println();
 			System.out.println("Turno: " + chessMatch.getTurn());
-			System.out.println(ANSI_GREEN + "  CHECK-MATE! " + ANSI_RESET + " Jogador " + win + " venceu.");
+			System.out.println(ANSI_GREEN + "  CHECK-MATE! " + ANSI_RESET + " Jogador " + winner + " venceu.");
 		} else {
 			System.out.println();
 			System.out.println("Turno: " + chessMatch.getTurn());
