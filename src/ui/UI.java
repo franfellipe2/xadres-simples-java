@@ -49,14 +49,20 @@ public class UI {
 	}
 
 	public void printMatch() {
-		if(chessMatch.getCapturedBlacks().size() > 0)
-			System.out.println("  "+Arrays.toString(chessMatch.getCapturedBlacks().toArray()));
 		printBoard();
-		if(chessMatch.getCapturedWhites().size() > 0)
-			System.out.println("  "+ANSI_YELLOW+Arrays.toString(chessMatch.getCapturedWhites().toArray())+ANSI_RESET);
 		System.out.println();
 		System.out.println("Turno: " + chessMatch.getTurn());
 		System.out.println("Aguardando jogador: " + chessMatch.getCurrentPlayer());
+	}
+
+	public void printCapturedWhites() {
+		if (chessMatch.getCapturedWhites().size() > 0)
+			System.out.println("  " + Arrays.toString(chessMatch.getCapturedWhites().toArray()));
+	}
+
+	public void printCapturedBlacks() {
+		if (chessMatch.getCapturedBlacks().size() > 0)
+			System.out.println("  "+ANSI_YELLOW + Arrays.toString(chessMatch.getCapturedBlacks().toArray()) + ANSI_RESET);
 	}
 
 	public void printBoard() {
@@ -82,6 +88,7 @@ public class UI {
 	}
 
 	private void performPrintBoard(OnPrintBoard callback) {
+		printCapturedWhites();
 		System.out.println("  " + ANSI_YELLOW_BACKGROUND + ANSI_BLACK + "  a b c d e f g h " + ANSI_RESET);
 		ChessPiece[][] pieces = this.chessMatch.getPieces();
 		int nLines, nColumns;
@@ -93,8 +100,8 @@ public class UI {
 			}
 			System.out.println();
 		}
-		System.out.print("  " + ANSI_WHITE_BACKGROUND + ANSI_BLACK + "  a b c d e f g h " + ANSI_RESET);
-		System.out.println();
+		System.out.println("  " + ANSI_WHITE_BACKGROUND + ANSI_BLACK + "  a b c d e f g h " + ANSI_RESET);
+		printCapturedBlacks();
 	}
 
 	public interface OnPrintBoard {
