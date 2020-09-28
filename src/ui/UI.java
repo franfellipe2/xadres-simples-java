@@ -50,12 +50,23 @@ public class UI {
 
 	public void printMatch() {
 		printBoard();
-		System.out.println();
-		System.out.println("Turno: " + chessMatch.getTurn());
-		if(chessMatch.getCurrentPlayer() == Color.WHITE){
-			System.out.println("Aguardando jogador: " + ANSI_WHITE_BACKGROUND+ANSI_BLACK+" "+chessMatch.getCurrentPlayer()+" "+ANSI_RESET);
-		}else{
-			System.out.println("Aguardando jogador: " + ANSI_YELLOW_BACKGROUND+ANSI_BLACK+" "+chessMatch.getCurrentPlayer()+" "+ANSI_RESET);
+		if (chessMatch.isCheckmate()) {
+			String win = chessMatch.getCurrentPlayer() == Color.WHITE
+					? ANSI_YELLOW_BACKGROUND + ANSI_BLACK + " " + Color.BLACK + " "+ANSI_RESET
+					: ANSI_WHITE_BACKGROUND + ANSI_BLACK + " " + Color.WHITE+" "+ANSI_RESET;			
+			System.out.println();
+			System.out.println("Turno: " + chessMatch.getTurn());
+			System.out.println(ANSI_GREEN + "  CHECK-MATE! " + ANSI_RESET + " Jogador " + win + " venceu.");
+		} else {
+			System.out.println();
+			System.out.println("Turno: " + chessMatch.getTurn());
+			if (chessMatch.getCurrentPlayer() == Color.WHITE) {
+				System.out.println("Aguardando jogador: " + ANSI_WHITE_BACKGROUND + ANSI_BLACK + " "
+						+ chessMatch.getCurrentPlayer() + " " + ANSI_RESET);
+			} else {
+				System.out.println("Aguardando jogador: " + ANSI_YELLOW_BACKGROUND + ANSI_BLACK + " "
+						+ chessMatch.getCurrentPlayer() + " " + ANSI_RESET);
+			}
 		}
 	}
 
@@ -66,7 +77,8 @@ public class UI {
 
 	public void printCapturedBlacks() {
 		if (chessMatch.getCapturedBlacks().size() > 0)
-			System.out.println("  "+ANSI_YELLOW + Arrays.toString(chessMatch.getCapturedBlacks().toArray()) + ANSI_RESET);
+			System.out.println(
+					"  " + ANSI_YELLOW + Arrays.toString(chessMatch.getCapturedBlacks().toArray()) + ANSI_RESET);
 	}
 
 	public void printBoard() {
@@ -106,9 +118,9 @@ public class UI {
 		}
 		System.out.println("  " + ANSI_WHITE_BACKGROUND + ANSI_BLACK + "  a b c d e f g h " + ANSI_RESET);
 		printCapturedBlacks();
-		if(chessMatch.isCheck()){
-			System.out.println(ANSI_RED+"  CHECK!"+ANSI_RESET);
-		}
+		if (!chessMatch.isCheckmate() && chessMatch.isCheck())
+			System.out.println(ANSI_RED + "  CHECK!" + ANSI_RESET);
+
 	}
 
 	public interface OnPrintBoard {

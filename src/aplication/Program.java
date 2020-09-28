@@ -15,8 +15,7 @@ public class Program {
 		ChessMatch chessMatch = new ChessMatch();
 		UI ui = new UI(chessMatch);
 
-		boolean runGame = true;
-		while (runGame == true) {
+		while (!chessMatch.isCheckmate()) {
 			try {				
 				
 				printBoard(ui, null);
@@ -39,8 +38,7 @@ public class Program {
 				sc.nextLine();
 			}
 		}
-		if (runGame == false)
-			sc.close();
+		printBoard(ui, null);
 	}
 
 	private static void printBoard(UI ui, boolean[][] possibleMoves) {
