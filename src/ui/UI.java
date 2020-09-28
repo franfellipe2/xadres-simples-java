@@ -46,6 +46,13 @@ public class UI {
 		System.out.flush();
 	}
 
+	public void printMatch() {
+		printBoard();
+		System.out.println();
+		System.out.println("Turno: " + chessMatch.getTurn());
+		System.out.println("Aguardando jogador: " + chessMatch.getCurrentPlayer());
+	}
+
 	public void printBoard() {
 		performPrintBoard(new OnPrintBoard() {
 			@Override

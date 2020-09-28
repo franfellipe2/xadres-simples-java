@@ -12,10 +12,14 @@ import chess.pieces.Queen;
 import chess.pieces.Rook;
 
 public class ChessMatch {
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 
 	public ChessMatch() {
 		board = new Board(8, 8);
+		turn = 1;
+		currentPlayer = Color.WHITE;
 		intialSetup();
 	}
 
@@ -29,24 +33,32 @@ public class ChessMatch {
 		return mat;
 	}
 
+	public int getTurn() {
+		return turn;
+	}
+
+	public Color getCurrentPlayer() {
+		return this.currentPlayer;
+	}	
+
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
 	}
 
 	public ChessPiece performChessMove(ChessPosition srcPosition, ChessPosition targPosition) {
-
 		Position src = srcPosition.toPosition();
 		Position targ = targPosition.toPosition();
 		validateSourcePosition(src);
 		validateTargetPosition(src, targ);
 		Piece capturedPiece = makeMove(src, targ);
+		nextTurn();
 		return (ChessPiece) capturedPiece;
 	}
 
 	public boolean[][] possibleMoves(ChessPosition p) {
 		Position pp = p.toPosition();
 		validateSourcePosition(pp);
-		return board.piece(pp).possibleMoves();		
+		return board.piece(pp).possibleMoves();
 	}
 
 	private Piece makeMove(Position src, Position targ) {
@@ -68,12 +80,19 @@ public class ChessMatch {
 	 * 
 	 * @param p
 	 */
-	private void validateSourcePosition(Position p) {
-		// TODO Auto-generated method stub
+	private void validateSourcePosition(Position p) {		
 		if (!board.thereIsAPiece(p))
 			throw new ChessException("Não existe peça na posição de origem!");
+		if(currentPlayer != ((ChessPiece)board.piece(p)).getColor())
+			throw new ChessException("A peca escolhida nao e sua!");
 		if (!board.piece(p).isThereAnyPossibleMove())
 			throw new ChessException("Não existe movimento possivel para esta peca!");
+		
+	}
+	
+	public void nextTurn() {
+		this.turn++;
+		this.currentPlayer = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
 	}
 
 	private void intialSetup() {
@@ -90,7 +109,7 @@ public class ChessMatch {
 		placeNewPiece('c', 2, new Pawn(board, Color.WHITE));
 		placeNewPiece('d', 2, new Pawn(board, Color.WHITE));
 		placeNewPiece('e', 2, new Pawn(board, Color.WHITE));
-		//placeNewPiece('f', 2, new Pawn(board, Color.WHITE));
+		// placeNewPiece('f', 2, new Pawn(board, Color.WHITE));
 		placeNewPiece('g', 2, new Pawn(board, Color.WHITE));
 		placeNewPiece('h', 2, new Pawn(board, Color.WHITE));
 
@@ -102,12 +121,12 @@ public class ChessMatch {
 		placeNewPiece('f', 8, new King(board, Color.BLACK));
 		placeNewPiece('g', 8, new Horse(board, Color.BLACK));
 		placeNewPiece('h', 8, new Rook(board, Color.BLACK));
-		placeNewPiece('a', 7, new Pawn(board, Color.BLACK));
+		//placeNewPiece('a', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('b', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('c', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('d', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('e', 7, new Pawn(board, Color.BLACK));
-		placeNewPiece('f', 7, new Pawn(board, Color.BLACK));
+		//placeNewPiece('f', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('g', 7, new Pawn(board, Color.BLACK));
 		placeNewPiece('h', 7, new Pawn(board, Color.BLACK));
 	}

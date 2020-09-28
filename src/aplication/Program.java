@@ -47,8 +47,8 @@ public class Program {
 		UI.clearScreen();
 		System.out.println();
 		System.out.println("  XADREZ");
-		if (possibleMoves == null) {
-			ui.printBoard();			
+		if (possibleMoves == null) {			
+			ui.printMatch();			
 		}else{
 			ui.printBoard(possibleMoves);
 		}
