@@ -9,25 +9,26 @@ import chess.ChessPiece;
 import chess.ChessPosition;
 import ui.UI;
 
-public class Program {
+public class Program {	
 	public static void main(String args[]) {
 		Scanner sc = new Scanner(System.in);
 		ChessMatch chessMatch = new ChessMatch();
-		UI ui = new UI();
+		UI ui = new UI(chessMatch);
 
 		boolean runGame = true;
 		while (runGame == true) {
-			try {
-				ui.clearScreen();
-				System.out.println();
-				System.out.println("  XADREZ");
-				ui.printBoard(chessMatch.getPieces());
-				System.out.println();
+			try {				
+				
+				printBoard(ui, null);
+				
 				System.out.print("Origem: ");
-				ChessPosition src = ui.readChessPosition(sc);
+				ChessPosition src = UI.readChessPosition(sc);
+				printBoard(ui, chessMatch.possibleMoves(src));
+
 				System.out.print("Destino: ");
-				ChessPosition targ = ui.readChessPosition(sc);
+				ChessPosition targ = UI.readChessPosition(sc);
 				ChessPiece capturedPiece = chessMatch.performChessMove(src, targ);
+
 			} catch (ChessException e) {
 				System.out.print(e.getMessage());
 				sc.nextLine();
@@ -40,5 +41,17 @@ public class Program {
 		}
 		if (runGame == false)
 			sc.close();
+	}
+
+	private static void printBoard(UI ui, boolean[][] possibleMoves) {
+		UI.clearScreen();
+		System.out.println();
+		System.out.println("  XADREZ");
+		if (possibleMoves == null) {
+			ui.printBoard();			
+		}else{
+			ui.printBoard(possibleMoves);
+		}
+		System.out.println();
 	}
 }
