@@ -52,7 +52,11 @@ public class UI {
 		printBoard();
 		System.out.println();
 		System.out.println("Turno: " + chessMatch.getTurn());
-		System.out.println("Aguardando jogador: " + chessMatch.getCurrentPlayer());
+		if(chessMatch.getCurrentPlayer() == Color.WHITE){
+			System.out.println("Aguardando jogador: " + ANSI_WHITE_BACKGROUND+ANSI_BLACK+" "+chessMatch.getCurrentPlayer()+" "+ANSI_RESET);
+		}else{
+			System.out.println("Aguardando jogador: " + ANSI_YELLOW_BACKGROUND+ANSI_BLACK+" "+chessMatch.getCurrentPlayer()+" "+ANSI_RESET);
+		}
 	}
 
 	public void printCapturedWhites() {
@@ -90,7 +94,7 @@ public class UI {
 	private void performPrintBoard(OnPrintBoard callback) {
 		printCapturedWhites();
 		System.out.println("  " + ANSI_YELLOW_BACKGROUND + ANSI_BLACK + "  a b c d e f g h " + ANSI_RESET);
-		ChessPiece[][] pieces = this.chessMatch.getPieces();
+		ChessPiece[][] pieces = chessMatch.getPieces();
 		int nLines, nColumns;
 		nLines = nColumns = pieces.length;
 		for (int i = 0; i < nLines; i++) {
@@ -102,6 +106,9 @@ public class UI {
 		}
 		System.out.println("  " + ANSI_WHITE_BACKGROUND + ANSI_BLACK + "  a b c d e f g h " + ANSI_RESET);
 		printCapturedBlacks();
+		if(chessMatch.isCheck()){
+			System.out.println(ANSI_RED+"  CHECK!"+ANSI_RESET);
+		}
 	}
 
 	public interface OnPrintBoard {
