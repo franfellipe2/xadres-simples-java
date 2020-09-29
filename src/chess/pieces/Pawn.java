@@ -59,5 +59,4 @@ public class Pawn extends ChessPiece {
 		}
 		return mat;
 	}
-
 }
