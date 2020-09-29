@@ -50,13 +50,5 @@ public class Knight extends ChessPiece {
 			mat[p.getRow()][p.getColumn()] = true;
 
 		return mat;
-	}
-
-	private boolean canMove(Position p) {
-		if (getBoard().positionExistis(p)) {
-			ChessPiece piece = (ChessPiece) getBoard().piece(p);
-			return piece == null || getColor() != piece.getColor();
-		}
-		return false;
-	}
+	}	
 }
