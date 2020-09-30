@@ -9,6 +9,7 @@ public abstract class ChessPiece extends Piece {
 
 	private Color color;
 	private int numberMoves;
+	private int oponentOnTheWay = 0;
 
 	public ChessPiece(Board board, Color color) {
 		super(board);
@@ -23,9 +24,10 @@ public abstract class ChessPiece extends Piece {
 		return ChessPosition.fromPosition(position);
 	}
 
-	public int getNumberMoves(){
+	public int getNumberMoves() {
 		return numberMoves;
 	}
+
 	public void incrementNumberMoves() {
 		numberMoves++;
 	}
@@ -36,17 +38,15 @@ public abstract class ChessPiece extends Piece {
 	}
 
 	protected boolean isThereOponentPiece(Position p) {
-		if (getBoard().positionExistis(p)) {
-			ChessPiece piece = (ChessPiece) getBoard().piece(p);
-			return piece != null && (piece.getColor() != this.color);
-		}
-		return false;
+		if (!board.positionExistis(p))
+			return false;
+		ChessPiece piece = (ChessPiece) getBoard().piece(p);
+		return piece != null && (piece.getColor() != this.color);
 	}
-	
+
 	protected boolean canMove(Position p) {
-		if (getBoard().positionExistis(p)) {
-			ChessPiece piece = (ChessPiece) getBoard().piece(p);
-			return piece == null || getColor() != piece.getColor();
+		if (board.positionExistis(p)) {
+			return getBoard().piece(p) == null;
 		}
 		return false;
 	}
