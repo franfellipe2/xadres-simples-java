@@ -40,6 +40,12 @@ public class Board {
 		pieces[p.getRow()][p.getColumn()] = null;
 		return aux;
 	}
+	public Piece removePiece(Piece p) {		
+		Piece aux = p;
+		aux.position = null;
+		pieces[p.position.getRow()][p.position.getColumn()] = null;
+		return aux;
+	}
 
 	private boolean positionExistis(int row, int column) {
 		return row >= 0 && row < rows && column >= 0 && column < columns;

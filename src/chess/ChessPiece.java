@@ -44,11 +44,22 @@ public abstract class ChessPiece extends Piece {
 		return piece != null && (piece.getColor() != this.color);
 	}
 
+	protected ChessPiece getOpoentPiece(Position p) {
+		if (!board.positionExistis(p))
+			return null;
+		ChessPiece piece = (ChessPiece) getBoard().piece(p);
+		if (piece != null && (piece.getColor() != this.color)) {
+			return piece;
+		}
+		return null;
+	}
+
 	protected boolean canMove(Position p) {
 		if (board.positionExistis(p)) {
 			return getBoard().piece(p) == null;
 		}
 		return false;
 	}
+	
 
 }

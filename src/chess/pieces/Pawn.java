@@ -1,14 +1,22 @@
 package chess.pieces;
 
 import boardgame.Board;
+import boardgame.Piece;
 import boardgame.Position;
+import chess.ChessException;
+import chess.ChessMatch;
+import chess.ChessMatchObserverInterface;
 import chess.ChessPiece;
 import chess.enums.Color;
 
 public class Pawn extends ChessPiece {
 
-	public Pawn(Board board, Color color) {
+	private ChessMatch chessMatch;
+	private boolean vulnerableEnPassant;
+
+	public Pawn(Board board, Color color, ChessMatch chessMatch) {
 		super(board, color);
+		this.chessMatch = chessMatch;
 	}
 
 	@Override
@@ -38,6 +46,17 @@ public class Pawn extends ChessPiece {
 			p.setValues(position.getRow() - 1, position.getColumn() + 1);
 			if (isThereOponentPiece(p))
 				mat[p.getRow()][p.getColumn()] = true;
+			// #En Passant
+			if (position.getRow() == 3) {
+				ChessPiece left = getOpoentPiece(new Position(position.getRow(), position.getColumn() - 1));
+				if (left != null && left == this.chessMatch.getEnPassantVulnerable()) {
+					mat[position.getRow() - 1][position.getColumn() - 1] = true;
+				}
+				ChessPiece right = getOpoentPiece(new Position(position.getRow(), position.getColumn() + 1));
+				if (right != null && right == this.chessMatch.getEnPassantVulnerable()) {
+					mat[position.getRow() - 1][position.getColumn() + 1] = true;
+				}
+			}
 			// movimentos peça preta
 		} else {
 			// top
@@ -56,7 +75,25 @@ public class Pawn extends ChessPiece {
 			p.setValues(position.getRow() + 1, position.getColumn() + 1);
 			if (isThereOponentPiece(p))
 				mat[p.getRow()][p.getColumn()] = true;
+			// #En Passant
+			if (position.getRow() == 4) {
+				ChessPiece left = getOpoentPiece(new Position(position.getRow(), position.getColumn() - 1));
+				if (left != null && left == this.chessMatch.getEnPassantVulnerable()) {
+					mat[position.getRow() + 1][position.getColumn() - 1] = true;
+				}
+				ChessPiece right = getOpoentPiece(new Position(position.getRow(), position.getColumn() + 1));
+				if (right != null && right == this.chessMatch.getEnPassantVulnerable()) {
+					mat[position.getRow() + 1][position.getColumn() + 1] = true;
+				}
+			}
 		}
+
 		return mat;
 	}
+
+	@Override
+	public void incrementNumberMoves() {
+		super.incrementNumberMoves();
+	}
+
 }

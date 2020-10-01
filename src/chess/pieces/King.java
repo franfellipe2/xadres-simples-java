@@ -68,14 +68,12 @@ public class King extends ChessPiece {
 			int c = position.getColumn();// coluna
 			ChessPiece[][] m = match.getPieces();
 			// #Roque curto
-			ChessPiece rook = m[r][c + 3];
-			if (rook instanceof Rook && rook.getNumberMoves() == 0 && m[r][c + 1] == null && m[r][c + 2] == null) {
+			if (testeRookCastling(new Position(r, c + 3)) && m[r][c + 1] == null && m[r][c + 2] == null) {
 				canCastle = true;
 				mat[r][c + 2] = true;
 			}
 			// #roque longo(do lada da rainha)
-			rook = m[r][c - 4];
-			if (rook instanceof Rook && rook.getNumberMoves() == 0 && m[r][c - 1] == null && m[r][c - 2] == null
+			if (testeRookCastling(new Position(r, c - 4)) && m[r][c - 1] == null && m[r][c - 2] == null
 					&& m[r][c - 3] == null) {
 				canCastle = true;
 				mat[r][c - 2] = true;
@@ -83,6 +81,14 @@ public class King extends ChessPiece {
 		}
 
 		return mat;
+	}
+
+	private boolean testeRookCastling(Position position) {
+		if (!board.positionExistis(position))
+			return false;
+		ChessPiece p = (ChessPiece) getBoard().piece(position);
+		return p != null && p instanceof Rook && p.getColor() == getColor() && p.getNumberMoves() == 0;
+
 	}
 
 	@Override
